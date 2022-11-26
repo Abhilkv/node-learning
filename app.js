@@ -1,32 +1,30 @@
-const http = require('http');
-const fs = require('fs')
+const express = require('express');
+const bodyParser = require('body-bodyParser');
 
-const server = http.createServer((req, res) => {
-    console.log(`req received`)
-    const url = (req.url)
-    res.setHeader('Content-Type', 'text/html')
-    if (url === '/') {
-        res.write(`<html><title>Test App</title><body></body></html>`)
-        res.write(`<h1><form action="/message" method="POST"> <input type="text" name="message"/> <Button type="submit">SEND</button></form></h1>`)
-    }
-    if (url === '/message' && req.method === 'POST') {
-        const body = [];
-        let message = '';
-        req.on('data', (chunk) => {     // new data event is triggered when ever a new chunk is read / recived
-            console.log(chunk);
-            body.push(chunk);
-        })
-        req.on('end', () => {           // triggered when all chunks were read
-            const parsedBody = Buffer.concat(body).toString();
-             message = parsedBody.split('=')[1];
-            fs.writeFileSync('message.txt', message)        // here we block the execution since its sync operation, next line only once its finished
-        } )
-        fs.writeFileSync('message.txt', 'DUMMY')
-        res.statusCode = 404;
-        res.write(`<h2>Test</h2>`)
-    }
-    res.end()
+app.use(bodyParser.urlencoded({ extended: false })) 
 
-});
+const app = express();
+app.use((req, res, next) => {
+	console.log("first middleware");
+    next();					// execution will move to next middleware only if there is this next 
+                        // Command else it will stuck here
+})
 
-server.listen(8081, () => console.log('listening at 8081'));
+app.use('/products', (req, res, next) => {
+    console.log("products middleware");
+    res.redirect('/')       // to redirect to particular url
+    res.send("<h1>New Products</h1>")
+
+})
+
+app.use('/', (req, res, next) => {
+    console.log("2nd middleware");
+    res.send("<h1>Home</h1>")
+    // next();					// execution will move to next  handler only if there is this next 
+                        //  Command else it will stuck here
+})
+
+
+
+app.listen(8081, () => console.log('listening at 8081'))    // it internally creates server and listen to the port like in normal node
+
