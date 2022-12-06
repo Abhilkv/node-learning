@@ -1,0 +1,7 @@
+.navs {
+    font-size: 1.5rem;
+    color: red;
+}
+.navs:hover {
+    font-weight: bold;
+}
