@@ -6,16 +6,18 @@ const adminRoutes = require('./routes/admin');
 const shopRoutes = require('./routes/shop');
 
 
+
 const app = express();
 app.use(bodyParser.urlencoded({ extended: false })) 
-app.use(express.static(path.join(__dirname, 'public')))   // to set the path for the 
+app.use(express.static(path.join(__dirname, 'public')))   // to set the default path for the  styles / any file access 
+                                                          // so styles href link will become D:/learning/node_learning/public/css/main.css
 
-app.use('/admin', adminRoutes)
+app.use('/admin', adminRoutes.routes)              // selects the adminRouter if path matches /admin
 app.use(shopRoutes)
 
 app.use((req, res, next) => {
-    res.status(404).sendFile(path.join(__dirname, 'views', '404.html'))
-})
+    res.status(404).sendFile(path.join(__dirname, 'views', '404.html'))   // using a file  in the code base
+})                                                                         // here _dirname refers to the node-learning folder
 
 
 

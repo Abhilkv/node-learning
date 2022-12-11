@@ -1,15 +1,8 @@
-
-.header:hover {
-    font-weight: bold;
-}
-
 .header {
     height: auto;
     padding: 10px 0px;
     background-color: aqua;
     display: flex;
-    font-size: 1.5rem;
-    color: red;
     justify-content: space-evenly;
 
 }
@@ -32,8 +25,4 @@ a {
     text-decoration: none;
     font-size: 1.5rem;
     font-weight: bold;
-}
-
-main {
-    padding: 20px;
 }
