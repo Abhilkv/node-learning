@@ -1,27 +1,27 @@
 const express = require('express');
 const router = express.Router()
 const mainPath = require('../utils/path');
+const productsController = require('../controllers/product');
 
 const path = require('path')
 
-// reaches only on /admin/add-comment
-router.get('/add-product', (req, res, next) => {
 
-    res.sendFile(path.join(__dirname, '../', 'views', 'add-product.html'))
+
+
+// reaches only on /admin/add-comment
+router.get('/add-product', productsController.showAddProduct)
+
+router.get('/add', (req, res ) => {
+    console.log(path.join(__dirname, '', 'views', 'add-product.html'))
+    res.send('<h1>Test</h1>')
 })
 
-const products = [];
 
 
 // reaches only on /admin/products    POST request
-router.post('/add-product', (req, res, next) => {
-    console.log(req.body);
-    products.push({ title: req.body.title })
- 
-    res.send("<h1>New Products</h1>")
+router.post('/add-product', productsController.addAproducts)
 
-})
 
-exports.products = products;
+
 exports.routes = router;
 // module.exports = router;
