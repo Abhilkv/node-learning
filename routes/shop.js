@@ -17,7 +17,9 @@ router.get('/', (req, res) => {
 
 router.get('/products', shopController.getProducts);
 
-router.get('/products/:productId', shopController.getProduct);
+router.get('/products/:productId', shopController.getProduct);         // url dynamic param
+
+router.get('/productsQueryParam', shopController.getProductQuery);    // query param
 
 router.get('/cart', shopController.getCart);
 
