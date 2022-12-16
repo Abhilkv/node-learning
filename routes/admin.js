@@ -1,27 +1,24 @@
+const path = require('path');
+
 const express = require('express');
-const router = express.Router()
-const mainPath = require('../utils/path');
-const productsController = require('../controllers/product');
 
-const path = require('path')
+const adminController = require('../controllers/admin');
 
+const router = express.Router();
 
+// /admin/add-product => GET
+router.get('/add-product', adminController.getAddProduct);
 
+// /admin/products => GET
+router.get('/products', adminController.getProducts);
 
-// reaches only on /admin/add-comment
-router.get('/add-product', productsController.showAddProduct)
+// /admin/add-product => POST
+router.post('/add-product', adminController.postAddProduct);
 
-router.get('/add', (req, res ) => {
-    console.log(path.join(__dirname, '', 'views', 'add-product.html'))
-    res.send('<h1>Test</h1>')
-})
+router.get('/edit-product/:productId', adminController.getEditProduct);
 
+router.post('/edit-product', adminController.postEditProduct);
 
+router.post('/delete-product', adminController.postDeleteProduct);
 
-// reaches only on /admin/products    POST request
-router.post('/add-product', productsController.addAproducts)
-
-
-
-exports.routes = router;
-// module.exports = router;
+module.exports = router;

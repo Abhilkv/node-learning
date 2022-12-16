@@ -1,29 +1,22 @@
+const path = require('path');
+
 const express = require('express');
-const router = express.Router()
-const adminRoutes = require('./admin');
+
 const shopController = require('../controllers/shop');
 
-const path = require('path')
+const router = express.Router();
 
-// router.get('/', (req, res) => {
-//     res.sendFile(path.join(__dirname, '../', 'views', 'shop.html'))
-//     // res.send({ name: 'abhil'})
-// })
-
-
-router.get('/', (req, res) => {
-    res.render('shop', {docTitle: 'Abhil Shop', prods: adminRoutes.products, path: 'sample' })
-})
+router.get('/', shopController.getIndex);
 
 router.get('/products', shopController.getProducts);
 
-router.get('/products/:productId', shopController.getProduct);         // url dynamic param
-
-router.get('/productsQueryParam', shopController.getProductQuery);    // query param
+router.get('/products/:productId', shopController.getProduct);
 
 router.get('/cart', shopController.getCart);
 
 router.post('/cart', shopController.postCart);
+
+router.post('/cart-delete-item', shopController.postCartDeleteProduct);
 
 router.get('/orders', shopController.getOrders);
 
