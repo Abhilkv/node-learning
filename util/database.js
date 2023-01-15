@@ -1,10 +1,16 @@
-const mysql = require('mysql2');
+// const mysql = require('mysql2');
 
-const pool = mysql.createConnection({
-    host: 'localhost',
-    user: 'root',
-    database: 'node-learning',
-    password: 'Abhil@2015'
-})   // creates a pool of connections for supporting multiple queries simultaneously 
+// const pool = mysql.createConnection({
+//     host: 'localhost',
+//     user: 'root',
+//     database: 'node-learning',
+//     password: 'Abhil@2015'
+// })   // creates a pool of connections for supporting multiple queries simultaneously 
 
-module.exports = pool.promise();   // to handle the queries in async manner
+// module.exports = pool.promise();   // to handle the queries in async manner
+
+const Sequelize = require('sequelize');
+
+const sequelize = new Sequelize('node-learning', 'root', 'Abhil@2015', { dialect: 'mysql', host: 'localhost'});
+
+module.exports = sequelize;

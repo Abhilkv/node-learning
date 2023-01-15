@@ -9,17 +9,38 @@ exports.getAddProduct = (req, res, next) => {
 };
 
 exports.postAddProduct = (req, res, next) => {
+  console.log('BODY ****************************************************')
+  console.log(JSON.stringify(req.body))
+  console.log('After ****************************************************')
   const title = req.body.title;
   const imageUrl = req.body.imageUrl;
   const price = req.body.price;
   const description = req.body.description;
   const category = req.body.category;
-  const product = new Product(null, title, imageUrl, description, price, category);
-  product.save()
-  .then(() => {
-    res.redirect('/');
+  console.log({ 
+    title,
+    price,
+    imageUrl,
+    description,
+    category
   })
-  .catch(err => console.log(err));
+  Product.create({ 
+    title: title,
+    price: price,
+    imageUrl: imageUrl,
+    description: description,
+    category: category
+  }).then(() => {
+    console.log('data created to db');
+    res.redirect('/')
+   }).catch((err) => console.log('Error on creating data :' + err))
+
+  // const product = new Product(null, title, imageUrl, description, price, category);
+  // product.save()
+  // .then(() => {
+  //   res.redirect('/');
+  // })
+  // .catch(err => console.log(err));
 
 };
 
@@ -28,18 +49,19 @@ exports.getEditProduct = (req, res, next) => {
   if (!editMode) {
     return res.redirect('/');
   }
-  const prodId = req.params.productId;
-  Product.findById(prodId, product => {
-    if (!product) {
-      return res.redirect('/');
-    }
-    res.render('admin/edit-product', {
-      pageTitle: 'Edit Product',
-      path: '/admin/edit-product',
-      editing: editMode,
-      product: product
+  const prodId = req.params.productId; 
+  Product.findByPk(prodId).then(
+    (product) => {
+      if (!product) {
+        return res.redirect('/');
+      }
+      res.render('admin/edit-product', {
+        pageTitle: 'Edit Product',
+        path: '/admin/edit-product',
+        editing: editMode,
+        product: product
+      });
     });
-  });
 };
 
 exports.postEditProduct = (req, res, next) => {
